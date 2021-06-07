@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/mlg-dev-rus/game-network-core-lib/model"
+	. "github.com/mlg-dev-rus/game-network-core-lib/model"
 )
 
 func GameToSmallModel(src Game) GameSmall {
