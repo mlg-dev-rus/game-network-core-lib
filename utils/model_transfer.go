@@ -1,12 +1,14 @@
 package utils
 
 import (
+	"fmt"
 	. "github.com/mlg-dev-rus/game-network-core-lib/model"
+	"strconv"
 )
 
-const Windows = "Windows"
-const Linux = "Linux"
-const Mac = "Mac"
+const Windows = "windows"
+const Linux = "linux"
+const Mac = "mac"
 
 func GameToSmallModel(src Game) GameSmall {
 	var srcSmall GameSmall
@@ -22,7 +24,17 @@ func GameToSmallModel(src Game) GameSmall {
 		}
 	}
 	srcSmall.ReleaseDate = src.ReleaseDate
-	srcSmall.Categories = src.Categories
+
+	for i := 0; i < len(src.Categories); i++ {
+		srcSmall.Categories = append(srcSmall.Categories, struct {
+			ID          string `json:"id" bson:"id"`
+			Description string `json:"description" bson:"description"`
+		}{
+			strconv.Itoa(src.Categories[i].ID),
+			src.Categories[i].Description,
+		})
+	}
+
 	srcSmall.Genres = src.Genres
 	srcSmall.AboutTheGame = src.AboutTheGame
 	srcSmall.ShortDescription = src.ShortDescription
@@ -51,25 +63,33 @@ func GameToBigModel(srcSmall GameSmall) Game {
 	src.NameTranslation = srcSmall.NameTranslation
 	src.Type = srcSmall.Type
 	src.DLC = srcSmall.DLC
+	src.Platforms = make(map[string]bool)
 	for _, value := range srcSmall.Platforms {
-		if value == Windows {
+		switch value {
+		case Windows:
 			src.Platforms[Windows] = true
-		} else {
-			src.Platforms[Windows] = false
-		}
-		if value == Linux {
+		case Linux:
 			src.Platforms[Linux] = true
-		} else {
-			src.Platforms[Linux] = false
-		}
-		if value == Mac {
+		case Mac:
 			src.Platforms[Mac] = true
-		} else {
-			src.Platforms[Mac] = false
 		}
 	}
 	src.ReleaseDate = srcSmall.ReleaseDate
-	src.Categories = srcSmall.Categories
+
+	for i := 0; i < len(srcSmall.Categories); i++ {
+		intID, err := strconv.Atoi(srcSmall.Categories[i].ID)
+		if err != nil {
+			fmt.Print(err)
+		}
+		src.Categories = append(src.Categories, struct {
+			ID          int    `json:"id" bson:"id"`
+			Description string `json:"description" bson:"description"`
+		}{
+			intID,
+			srcSmall.Categories[i].Description,
+		})
+	}
+
 	src.Genres = srcSmall.Genres
 	src.AboutTheGame = srcSmall.AboutTheGame
 	src.ShortDescription = srcSmall.ShortDescription
@@ -88,7 +108,7 @@ func GameToBigModel(srcSmall GameSmall) Game {
 func GameToSmallModelArr(src []Game) []GameSmall {
 	var srcSmall []GameSmall
 	for i := 0; i < len(src); i++ {
-		srcSmall[i] = GameToSmallModel(src[i])
+		srcSmall = append(srcSmall, GameToSmallModel(src[i]))
 	}
 	return srcSmall
 }
@@ -96,7 +116,7 @@ func GameToSmallModelArr(src []Game) []GameSmall {
 func GameToBigModelArr(srcSmall []GameSmall) []Game {
 	var src []Game
 	for i := 0; i < len(srcSmall); i++ {
-		src[i] = GameToBigModel(srcSmall[i])
+		src = append(src, GameToBigModel(srcSmall[i]))
 	}
 	return src
 }

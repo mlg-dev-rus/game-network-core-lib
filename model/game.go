@@ -14,13 +14,13 @@ type Game struct {
 		Date       int  `json:"date" bson:"date"`
 	} `json:"release_date" bson:"release_date"`
 	Categories []struct {
-		ID          string `json:"id" bson:"id"`
+		ID          int    `json:"id" bson:"id"`
 		Description string `json:"description" bson:"description"`
-	} `json:"categories"`
+	} `json:"categories" bson:"categories"`
 	Genres []struct {
 		ID          string `json:"id" bson:"id"`
 		Description string `json:"description" bson:"description"`
-	} `json:"genres"`
+	} `json:"genres" bson:"genres"`
 	AboutTheGame     string   `json:"about_the_game" bson:"about_the_game"`
 	ShortDescription string   `json:"short_description" bson:"short_description"`
 	Website          string   `json:"website" bson:"website"`
