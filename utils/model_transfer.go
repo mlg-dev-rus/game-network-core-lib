@@ -12,14 +12,10 @@ func GameToSmallModel(src Game) GameSmall {
 	srcSmall.NameTranslation = src.NameTranslation
 	srcSmall.Type = src.Type
 	srcSmall.DLC = src.DLC
-	if src.Platforms.Windows {
-		srcSmall.Platforms = append(srcSmall.Platforms, "Windows")
-	}
-	if src.Platforms.Linux {
-		srcSmall.Platforms = append(srcSmall.Platforms, "Linux")
-	}
-	if src.Platforms.Mac {
-		srcSmall.Platforms = append(srcSmall.Platforms, "Mac")
+	for key, value := range src.Platforms {
+		if value {
+			srcSmall.Platforms = append(srcSmall.Platforms, key)
+		}
 	}
 	srcSmall.ReleaseDate = src.ReleaseDate
 	srcSmall.Categories = src.Categories
