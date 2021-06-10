@@ -107,16 +107,16 @@ func GameToBigModel(srcSmall GameSmall) Game {
 
 func GameToSmallModelArr(src []Game) []GameSmall {
 	var srcSmall []GameSmall
-	for i := 0; i < len(src); i++ {
-		srcSmall = append(srcSmall, GameToSmallModel(src[i]))
+	for _, value := range src {
+		srcSmall = append(srcSmall, GameToSmallModel(value))
 	}
 	return srcSmall
 }
 
 func GameToBigModelArr(srcSmall []GameSmall) []Game {
 	var src []Game
-	for i := 0; i < len(srcSmall); i++ {
-		src = append(src, GameToBigModel(srcSmall[i]))
+	for _, value := range srcSmall {
+		src = append(src, GameToBigModel(value))
 	}
 	return src
 }
