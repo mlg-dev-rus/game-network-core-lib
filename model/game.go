@@ -75,18 +75,12 @@ type GameSmall struct {
 	MainGame        int               `bson:"main_game" bson:"main_game"`
 	DLC             []int             `json:"dlc" bson:"dlc"`
 	Platforms       []string          `json:"platforms" bson:"platforms"`
-	ReleaseDate     struct {
-		ComingSoon bool `json:"coming_soon" bson:"coming_soon"`
-		Date       int  `json:"date" bson:"date"`
-	} `json:"release_date" bson:"release_date"`
-	Categories []struct {
+	ReleaseDate     ReleaseDate       `json:"release_date" bson:"release_date"`
+	Categories      []struct {
 		ID          string `json:"id" bson:"id"`
 		Description string `json:"description" bson:"description"`
 	} `json:"categories" bson:"categories"`
-	Genres []struct {
-		ID          string `json:"id" bson:"id"`
-		Description string `json:"description" bson:"description"`
-	} `json:"genres" bson:"genres"`
+	Genres           []Gener  `json:"genres" bson:"genres"`
 	AboutTheGame     string   `json:"about_the_game" bson:"about_the_game"`
 	ShortDescription string   `json:"short_description" bson:"short_description"`
 	Website          string   `json:"website" bson:"website"`
